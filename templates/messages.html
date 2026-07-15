@@ -1,0 +1,12 @@
+{% if messages %}
+    {% for message in messages %}
+        <script>
+            Swal.fire({
+                icon: "{% if message.tags == 'error' %}error{% else %}{{ message.tags }}{% endif %}",
+                title: "{{ message }}",
+                timer: 3000,
+                showConfirmButton: false
+            });
+        </script>
+    {% endfor %}
+{% endif %}
