@@ -1,4 +1,6 @@
 from django.db import models
+from captcha.fields import CaptchaField
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=255)

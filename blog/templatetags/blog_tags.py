@@ -6,6 +6,11 @@ from django.core.paginator import Paginator
 register = template.Library()
     
 @register.simple_tag
+def comments_count(pid):
+    comments = Comment.objects.filter(approved=True, post=pid).count()
+    return comments
+
+@register.simple_tag
 def total_post():
     posts = Post.objects.filter(status=1, published_date__lte=timezone.now()).count()
     return posts

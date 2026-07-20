@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "multi_captcha_admin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -44,11 +45,15 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "website.apps.WebsiteConfig",
     "blog.apps.BlogConfig",
+    "accounts.apps.AccountsConfig",
     "django.contrib.humanize",
     "django_extensions",
     "django.contrib.sites",
     "django.contrib.sitemaps",
     "robots",
+    "taggit",
+    "django_summernote",
+    "captcha"
 ]
 
 SITE_ID = 2
@@ -65,6 +70,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "firstdjango.urls"
+
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
 
 TEMPLATES = [
     {
@@ -124,7 +133,6 @@ TIME_ZONE = "UTC"
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
