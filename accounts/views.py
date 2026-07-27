@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
+from accounts.forms import CustomUserCreationForm
 
 def signin_view(request):
     if not request.user.is_authenticated:
@@ -11,7 +12,8 @@ def signin_view(request):
             if form.is_valid():
                 username = form.cleaned_data.get("username")
                 password = form.cleaned_data.get("password")
-                user = authenticate(username=username, password=password)
+                email = form.cleaned_data.get("email")
+                user = authenticate(username=username, password=password, email=email)
                 if user is not None:
                     login(request, user)
                     messages.add_message(request, messages.SUCCESS, "sign-in successfully")
@@ -31,7 +33,7 @@ def signout_view(request):
 def signup_view(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
-            form = UserCreationForm(request.POST)
+            form = CustomUserCreationForm(request.POST)
             if form.is_valid():
                 form.save()
                 messages.add_message(request, messages.SUCCESS, "sign-up successfully")

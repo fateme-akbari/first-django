@@ -21,6 +21,7 @@ class Post(models.Model):
     published_date = models.DateTimeField(null=True)
     category = models.ManyToManyField(Category)
     tags = TaggableManager()
+    logged_in_required = models.BooleanField(default=False)
     ## Use __str__() to display the title instead of the object ID in the Django admin panel.
     def __str__(self):
         return self.title

@@ -1,10 +1,11 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from blog.models import Post, Comment
 from django.utils import timezone
 from django.utils.text import Truncator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from blog.forms import CommentForm
 from django.contrib import messages
+from django.urls import reverse
 
 def count_views(post):
         post.counted_views += 1
@@ -50,30 +51,34 @@ def blog_single_view(request, pid):
 
     post = get_object_or_404(Post,pk=pid,status=1, published_date__lte=timezone.now())
     posts = Post.objects.filter(status=1, published_date__lte=timezone.now())
-    #number of views
-    count_views(post)
-    
-    #previous page - next page
-    current_index = list(posts).index(post)
-    
-    next_post = None
-    previous_post = None
-    if current_index > 0:
-        previous_post = posts[current_index - 1]
-    if current_index < len(posts) - 1:
-        next_post = posts[current_index + 1]
+    if post.logged_in_required and not request.user.is_authenticated:
+        return redirect("accounts:signin")
+    else:
+        #number of views
+        count_views(post)
         
-    #show comments
-    comments = Comment.objects.filter(post=post, approved=True)
-    
-    content = {
-        "post": post,
-        "posts": posts,
-        "previous": previous_post,
-        "next": next_post,
-        "comments": comments,
-    }
-    return render(request, "blog/blog-single.html", content)
+        #previous page - next page
+        current_index = list(posts).index(post)
+        
+        next_post = None
+        previous_post = None
+        if current_index > 0:
+            previous_post = posts[current_index - 1]
+        if current_index < len(posts) - 1:
+            next_post = posts[current_index + 1]
+            
+        #show comments
+        comments = Comment.objects.filter(post=post, approved=True)
+        
+        content = {
+            "post": post,
+            "posts": posts,
+            "previous": previous_post,
+            "next": next_post,
+            "comments": comments,
+        }
+        return render(request, "blog/blog-single.html", content)
+        
 
 #merge this function to blog_view
 '''def blog_category(request, cat_name):

@@ -30,9 +30,6 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = []
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -56,7 +53,6 @@ INSTALLED_APPS = [
     "captcha"
 ]
 
-SITE_ID = 2
 ROBOTS_USE_HOST = False
 
 MIDDLEWARE = [
@@ -93,17 +89,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "firstdjango.wsgi.application"
 
 
-# Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
@@ -138,10 +123,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATC_ROOT = BASE_DIR / "static"
-STATICFILES_DIRS = [
-    BASE_DIR / "statics",
-]
 
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
